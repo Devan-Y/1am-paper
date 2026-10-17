@@ -1,0 +1,160 @@
+{
+  "series": "The 1 A.M. Paper",
+  "reader": "Devan",
+  "categories": {
+    "microparticles-drug-delivery": "Hydrogel microparticles & drug delivery",
+    "antibody-delivery": "High-concentration antibody injection",
+    "biomaterials-tissue": "Biomaterials & tissue engineering",
+    "cellular-agriculture": "Cellular agriculture",
+    "graded-materials": "Bio-inspired graded materials",
+    "wildcard": "Wildcard (outside the usual fields)"
+  },
+  "issues": [
+    {
+      "no": 1,
+      "date": "2026-10-13",
+      "url": "https://claude.ai/artifact/3xfAoMSCC4QKuTKFuvxYvn",
+      "headline": "Charge, in the right place at the right time",
+      "takeaway": "Pick where and when a charge appears, not just which charge.",
+      "wildcard": false,
+      "classic": false,
+      "stories": [
+        {
+          "slot": "lead",
+          "headline": "Molecular threads that tap neurons awake",
+          "category": "biomaterials-tissue",
+          "journal": "Science",
+          "pub_date": "2026-10-01",
+          "doi": "10.1126/science.aeg5583",
+          "lab": "Stupp lab, Northwestern",
+          "move": 1
+        },
+        {
+          "slot": "second",
+          "headline": "A nanoparticle that flips its charge with acidity",
+          "category": "microparticles-drug-delivery",
+          "journal": "Nature Nanotechnology",
+          "pub_date": "2026-09-08",
+          "doi": "10.1038/s41565-026-02262-6",
+          "lab": "Murthy lab, UC Berkeley",
+          "move": 2
+        }
+      ],
+      "terms": [
+        "supramolecular polymer",
+        "dalton",
+        "cortical neuron",
+        "calcium imaging",
+        "lipid nanoparticle (LNP)",
+        "endosome",
+        "pKa",
+        "cytokine"
+      ],
+      "quiz": [
+        {
+          "q": "Four charge patterns were tested on neurons. Which one helped, and what did the all-positive thread do?",
+          "a": "A short positive middle between two negative arms. The positive bit anchors to the cell, and the negative arms keep waving near it. The all-positive thread stuck flat to the cells and killed them."
+        },
+        {
+          "q": "Why does a self-capping thread stop growing, and how do you make it longer?",
+          "a": "When the building blocks run out, the floppy ends fold over and seal the tips. Adding more building blocks restarts growth, and adding a different kind adds a new segment."
+        },
+        {
+          "q": "The switchable nanoparticle is positive at pH __ and negative at pH __. What does each state do for it?",
+          "a": "Positive at pH 4 during mixing (grabs the mRNA) and in acidic endosomes (helps mRNA escape). Negative at pH 7.4 in blood (avoids setting off inflammation). The switch point is pH 4.2 to 5.8."
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "date": "2026-10-14",
+      "url": "https://claude.ai/artifact/XNBiioEqb5JfYf7UAC56Hv",
+      "headline": "Put the change exactly where it's needed",
+      "takeaway": "Don't make one material do everything; let each spot get what it needs, by design or by demand.",
+      "wildcard": false,
+      "classic": false,
+      "stories": [
+        {
+          "slot": "lead",
+          "headline": "A \"dongle\" cell that joins stiff bone-like lattice to soft tendon-like lattice",
+          "category": "graded-materials",
+          "journal": "Nature Communications",
+          "pub_date": "2026-10-05",
+          "doi": "10.1038/s41467-026-77560-7",
+          "lab": "Zadpoor & Mirzaali, TU Delft",
+          "move": 3
+        },
+        {
+          "slot": "second",
+          "headline": "Tumor cells pour the concrete that walls them in",
+          "category": "biomaterials-tissue",
+          "journal": "Nature Communications",
+          "pub_date": "2026-09-28",
+          "doi": "10.1038/s41467-026-77702-x",
+          "lab": "Weil lab, Max Planck Institute for Polymer Research",
+          "move": 4
+        }
+      ],
+      "terms": [
+        "lattice",
+        "unit cell",
+        "sheet lattice (TPMS)",
+        "strut lattice",
+        "node",
+        "transition cell",
+        "PolyJet printing",
+        "lactate",
+        "alginate",
+        "enzyme",
+        "lactate oxidase",
+        "horseradish peroxidase",
+        "spheroid",
+        "ATP"
+      ],
+      "quiz": [
+        {
+          "q": "Why does an adapter cell beat gradually blending a sheet lattice into a strut lattice?",
+          "a": "Blending creates odd, thin features that print badly and focus stress. The adapter is a sheet-type shape whose edges already end in nodes, so it plugs into struts cleanly. Cracks then started inside the parent lattices, not at the seam."
+        },
+        {
+          "q": "Why does the lactate-triggered gel form only near tumor cells, and why did it stop about 1 mm out?",
+          "a": "Gelling needs peroxide, made only from lactate. Lactate is high near the cells (>=5 mM within 400 um) and fades with distance (<=0.5 mM at 1,000 um), so the gel stops where lactate runs out."
+        },
+        {
+          "q": "A switchable nanoparticle is positive at pH __ and negative at pH __. What does each state do for it? (from No. 1)",
+          "a": "Positive at pH 4 during mixing (grabs mRNA) and in acidic endosomes (helps mRNA escape). Negative at blood pH 7.4 (avoids inflammation). Switch point pH 4.2 to 5.8."
+        }
+      ]
+    }
+  ],
+  "moves": [
+    {
+      "no": 1,
+      "name": "Arrange, don't add.",
+      "gist": "The same ingredients in a different order can give opposite results. Before adding something new, ask what rearranging what you have would do.",
+      "example": "Charge-patterned supramolecular threads: all-positive killed neurons; a positive anchor between negative arms made them thrive.",
+      "issue": 1
+    },
+    {
+      "no": 2,
+      "name": "Let the surroundings flip the switch.",
+      "gist": "When a design needs opposite properties in different places, tie the property to something that already differs between those places (acidity, temperature, enzymes, salt).",
+      "example": "A lipid that is positive at pH 4 to 6 (loading, endosome escape) and negative at blood pH 7.4.",
+      "issue": 1
+    },
+    {
+      "no": 3,
+      "name": "Build an adapter, not a blend.",
+      "gist": "When two parts won't join, look for an existing shape that already speaks both 'languages', and use one small translator piece instead of smearing one design into the other.",
+      "example": "A sheet-lattice (TPMS) unit cell whose edges end in strut-like nodes joins stiff sheet lattices to soft strut lattices; seams never failed first.",
+      "issue": 2
+    },
+    {
+      "no": 4,
+      "name": "Make the problem fuel the fix.",
+      "gist": "Find something the target produces in excess and use it as the trigger or raw material for your response, so the fix appears only where, and as much as, the problem exists.",
+      "example": "Tumor lactate is turned into peroxide by an enzyme, which crosslinks an alginate gel only within ~1 mm of the cells.",
+      "issue": 2
+    }
+  ]
+}

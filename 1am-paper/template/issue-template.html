@@ -1,0 +1,414 @@
+<title>1 A.M. Paper No. [N]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: one reading column, masthead → theme → lead story → second story → one-line takeaway → quiz → sources.
+   Each story runs: problem → your-turn guess (veils the trick) → trick → figure → result → move card → for-your-work → limits.
+   Template for nightly runs: keep this <style> and the <script> identical; swap only content. */
+:root {
+  --paper: #F4F5F8;
+  --card: #FFFFFF;
+  --ink: #181B25;
+  --muted: #5B6172;
+  --rule: #D9DCE5;
+  --lamp: #E9A61C;          /* amber reading-lamp accent, used as a fill */
+  --lamp-ink: #8A5800;      /* amber for text on paper */
+  --lamp-wash: #FCF1D9;
+  --on-lamp: #1E1707;
+  --pos: #CF3F35;           /* positive charge (red, by electrostatics convention) */
+  --neg: #2E68D6;           /* negative charge (blue) */
+  --memb: #E3E6EE;          /* cell membrane fill in diagrams */
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10121A; --card: #171A24; --ink: #E6E8EF; --muted: #9CA2B2; --rule: #2A2E3B;
+    --lamp: #F2B544; --lamp-ink: #F2B544; --lamp-wash: #2A2312; --on-lamp: #1E1707;
+    --pos: #FF6F62; --neg: #74A3FF; --memb: #252A38; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10121A; --card: #171A24; --ink: #E6E8EF; --muted: #9CA2B2; --rule: #2A2E3B;
+  --lamp: #F2B544; --lamp-ink: #F2B544; --lamp-wash: #2A2312; --on-lamp: #1E1707;
+  --pos: #FF6F62; --neg: #74A3FF; --memb: #252A38; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 660px; margin: 0 auto; padding-inline: 18px; padding-block: 28px 56px; display: flex; flex-direction: column; gap: 40px; }
+p { margin: 0; }
+a { color: var(--neg); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--lamp); outline-offset: 3px; border-radius: 3px; }
+.label { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.pos { color: var(--pos); } .neg { color: var(--neg); }
+strong { font-weight: 600; }
+
+/* masthead */
+.mast { display: flex; flex-direction: column; gap: 18px; border-bottom: 2px solid var(--ink); padding-bottom: 22px; }
+.mast-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+.brand { font-family: var(--display); font-stretch: 125%; font-weight: 850; font-size: 15px; letter-spacing: .14em; text-transform: uppercase; display: flex; align-items: center; gap: 9px; }
+.brand::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--lamp); box-shadow: 0 0 0 4px var(--lamp-wash); }
+.issue-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+h1 { font-family: var(--display); font-stretch: 72%; font-weight: 820; font-size: clamp(34px, 9vw, 50px); line-height: 1.0; letter-spacing: -.01em; margin: 6px 0 0; text-wrap: balance; }
+.intro { font-size: 17.5px; color: var(--ink); max-width: 62ch; }
+
+/* story */
+.story { display: flex; flex-direction: column; gap: 18px; }
+.kicker { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+.kicker .slot { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em; text-transform: uppercase; font-weight: 600; color: var(--lamp-ink); }
+h2 { font-family: var(--display); font-stretch: 82%; font-weight: 780; font-size: clamp(26px, 6.4vw, 32px); line-height: 1.08; margin: 0; text-wrap: balance; }
+.block { display: flex; flex-direction: column; gap: 8px; }
+.block p + p { margin-top: 4px; }
+
+.predict { background: var(--lamp-wash); border: 1px solid color-mix(in srgb, var(--lamp) 45%, transparent); border-radius: 8px; padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.predict .label { color: var(--lamp-ink); font-weight: 600; }
+.predict p { font-family: var(--display); font-stretch: 92%; font-weight: 600; font-size: 18.5px; line-height: 1.35; }
+.predict.done { opacity: .78; }
+.reveal { align-self: flex-start; font-family: var(--display); font-weight: 650; font-size: 14.5px; background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+.reveal:hover { background: color-mix(in srgb, var(--ink) 85%, var(--lamp)); }
+
+.trick { display: flex; flex-direction: column; gap: 18px; position: relative; }
+.trick.veiled > * { filter: blur(7px); opacity: .5; user-select: none; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) { .trick > * { transition: filter .35s ease, opacity .35s ease; } }
+
+/* figures */
+figure { margin: 0; background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 14px 12px; display: flex; flex-direction: column; gap: 12px; }
+.fig-title { font-family: var(--display); font-stretch: 90%; font-weight: 700; font-size: 15.5px; line-height: 1.3; }
+.fig-title .label { margin-right: 8px; }
+figcaption { font-family: var(--mono); font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+.bars { display: flex; flex-direction: column; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: 1fr; gap: 4px; }
+.bar-head { display: flex; justify-content: space-between; gap: 10px; font-size: 14.5px; line-height: 1.3; }
+.bar-head .v { font-family: var(--mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.track { height: 12px; background: var(--memb); border-radius: 3px; position: relative; overflow: hidden; }
+.fill { position: absolute; inset: 0 auto 0 0; background: var(--muted); min-width: 3px; }
+.fill.big { background: var(--lamp); width: 100%; }
+.fill.big::after { content: "→"; position: absolute; right: 4px; top: -4px; font-family: var(--mono); font-size: 13px; color: var(--on-lamp); }
+
+.designs { display: flex; flex-direction: column; }
+.design { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; align-items: center; padding-block: 10px; border-top: 1px solid var(--rule); }
+.design:first-child { border-top: 0; padding-top: 2px; }
+.design svg { width: 112px; height: auto; display: block; }
+.design .name { font-family: var(--display); font-weight: 700; font-size: 14.5px; line-height: 1.25; }
+.design .out { font-size: 14.5px; line-height: 1.45; color: var(--muted); }
+.design.win { background: var(--lamp-wash); margin-inline: -14px; padding-inline: 14px; border-radius: 6px; border-top-color: transparent; }
+.design.win .out { color: var(--ink); }
+.memb { fill: var(--memb); }
+.s-pos { stroke: var(--pos); } .s-neg { stroke: var(--neg); } .s-mut { stroke: var(--muted); }
+.thread { fill: none; stroke-width: 6; stroke-linecap: round; }
+.thin { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.plot text { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.plot .zone-l { font-size: 10.5px; fill: var(--ink); }
+.plot .ax { stroke: var(--rule); stroke-width: 1; }
+.plot .zero { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 3; }
+.plot .band { fill: var(--lamp); opacity: .18; }
+.plot .zline { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; opacity: .7; }
+.plot .snp { fill: none; stroke: var(--lamp-ink); stroke-width: 3; stroke-linecap: round; }
+.plot .lnp { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 4; }
+.plot .snp-t { fill: var(--lamp-ink); font-weight: 600; }
+.plot .pos-t { fill: var(--pos); font-size: 13px; font-weight: 600; }
+.plot .neg-t { fill: var(--neg); font-size: 13px; font-weight: 600; }
+.plot-scroll { overflow-x: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13.5px; line-height: 1.4; }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.key { display: inline-block; width: 22px; height: 0; flex: none; }
+.key-snp { border-top: 3px solid var(--lamp-ink); }
+.key-lnp { border-top: 2px dashed var(--muted); }
+.plot { width: 100%; min-width: 300px; height: auto; display: block; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stat { border-top: 2px solid var(--ink); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.stat .n { font-family: var(--mono); font-weight: 600; font-size: 21px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat .t { font-size: 13.5px; line-height: 1.45; color: var(--muted); }
+@media (max-width: 560px) {
+  .stats { grid-template-columns: 1fr; gap: 12px; }
+  .stat { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+  .stat .n { font-size: 17px; white-space: nowrap; }
+}
+
+.move { background: var(--lamp); color: var(--on-lamp); border-radius: 8px; padding: 16px 16px 15px; display: flex; flex-direction: column; gap: 6px; }
+.move .label { color: var(--on-lamp); opacity: .8; font-weight: 600; }
+.move .mname { font-family: var(--display); font-stretch: 100%; font-weight: 850; font-size: 23px; line-height: 1.15; }
+.move p:last-child { font-size: 15.5px; line-height: 1.5; }
+
+.aside { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.aside .block { padding-left: 0; }
+.aside p { font-size: 15.5px; line-height: 1.55; }
+.aside .limits p { color: var(--muted); }
+
+.divider { height: 0; border-top: 1px solid var(--rule); }
+
+.takeaway { display: flex; flex-direction: column; gap: 8px; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding-block: 18px; }
+.takeaway p { font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: clamp(24px, 6vw, 30px); line-height: 1.12; text-wrap: balance; }
+
+.quiz { display: flex; flex-direction: column; gap: 12px; }
+.quiz h3 { font-family: var(--display); font-stretch: 85%; font-weight: 780; font-size: 22px; margin: 0; }
+.quiz .note { font-size: 14.5px; color: var(--muted); }
+details { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; }
+summary { cursor: pointer; list-style: none; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; font-size: 16px; line-height: 1.45; }
+summary::-webkit-details-marker { display: none; }
+summary .q { font-family: var(--mono); font-weight: 600; color: var(--lamp-ink); font-size: 14px; padding-top: 2px; }
+summary .tap { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+details[open] summary .tap { display: none; }
+details .ans { margin: 10px 0 0 34px; font-size: 15.5px; line-height: 1.55; border-top: 1px dashed var(--rule); padding-top: 10px; }
+.from { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+.sources { display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.sources ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.sources a { word-break: break-word; }
+.foot { font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: space-between; border-top: 1px solid var(--rule); padding-top: 14px; }
+
+/* methods steps and back-of-envelope box */
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: flex; flex-direction: column; gap: 12px; }
+.steps li { counter-increment: step; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 15.5px; line-height: 1.55; }
+.steps li::before { content: counter(step); width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--rule); background: var(--card); display: grid; place-items: center; font-family: var(--mono); font-weight: 600; font-size: 12px; color: var(--lamp-ink); margin-top: 1px; }
+.steps .st { font-family: var(--display); font-weight: 700; font-size: 15px; margin-right: 4px; }
+.envelope { border: 1px dashed var(--rule); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; background: var(--card); }
+.envelope p { font-size: 15px; line-height: 1.55; }
+.envelope .eq { font-family: var(--mono); font-size: 16px; font-weight: 500; overflow-x: auto; white-space: nowrap; }
+.envelope sup { font-size: .7em; }
+</style>
+
+<main class="wrap">
+<!--
+  TEMPLATE FOR NIGHTLY ISSUES. Keep the <link>, <style> and <script> blocks byte-for-byte.
+  Replace every [BRACKETED] placeholder and every example sentence with tonight's content.
+  The LEAD story below is a fully worked example of the house style (from a paper whose full text was read):
+    - real technical terms, each defined briefly in plain words the first time it appears
+    - mechanism explained directly; at most one analogy per story (zero is fine)
+    - a "What they did" block: numbered steps covering what was built, the model system and sample size,
+      key doses/concentrations/timepoints, the readout (what was measured and how it reports the result), and the comparison
+    - an optional "Back of the envelope" box with one equation, every variable defined
+  The SECOND story is a shorter skeleton with the same order of blocks.
+-->
+
+<!-- ===== MASTHEAD ===== -->
+<header class="mast">
+  <div class="mast-top">
+    <div class="brand">The 1 A.M. Paper</div>
+    <div class="issue-meta">No. [NNN] · [Ddd Mon D, YYYY] · ~6 min</div>
+  </div>
+  <div>
+    <div class="label">Tonight's thread</div>
+    <h1>[The one idea linking both stories]</h1>
+  </div>
+  <p class="intro">[2 to 3 sentences that teach the shared concept plainly and say what each story does with it.]</p>
+</header>
+
+<!-- ===== LEAD STORY (worked example) ===== -->
+<article class="story" id="lead">
+  <div class="kicker"><span class="slot">Lead · Drug delivery</span><span class="label">Nature Nanotechnology · Sep 8, 2026 · Murthy lab, UC Berkeley</span></div>
+  <h2>A lipid that is positive in the endosome and negative in the blood</h2>
+
+  <div class="block">
+    <div class="label">The problem</div>
+    <p><strong>Lipid nanoparticles (LNPs)</strong> carry mRNA into cells. Their key ingredient is an <strong>ionizable lipid</strong>: a fat molecule with an amine (nitrogen) head group that picks up a proton and turns positive in acid. That charge does two jobs. It binds mRNA, which is negatively charged, while the particle is mixed in acidic buffer. After a cell swallows the particle into an <strong>endosome</strong> (a membrane bubble that turns acidic), it helps the mRNA escape into the cell.</p>
+    <p>The same positive charge also sets off inflammation through <strong>TLR4</strong> (an immune receptor that normally detects bacteria) and <strong>complement</strong> (a cascade of blood proteins that tags invaders). Breaking out of the endosome damages its membrane, which triggers more. So LNPs are limited to low, infrequent doses.</p>
+  </div>
+
+  <div class="predict" id="p1">
+    <div class="label">Your turn · 10 seconds</div>
+    <p>You need the lipid positive at pH 4 to 6 and not positive at pH 7.4. What could you change about the head group?</p>
+    <button class="reveal" type="button" data-reveal="t1" hidden>I've guessed. Show the idea</button>
+  </div>
+
+  <div class="trick" id="t1" data-veil>
+    <div class="block">
+      <div class="label">The idea · two groups that respond to pH in opposite directions</div>
+      <p>Put a <strong>carboxylic acid</strong> (–COOH) on the same head group as the amine. In acid, the carboxylic acid keeps its proton and is neutral while the amine is positive, so the lipid is positive. At pH 7.4 the acid loses its proton and becomes negative (–COO⁻), cancelling the amine, so the lipid is neutral to negative. The team calls these <strong>switchable lipids</strong>. Their best particles became neutral between pH 4.2 and 5.8. That crossover is the <strong>pKa</strong>, the pH where half the molecules have switched.</p>
+    </div>
+
+    <div class="envelope">
+      <div class="label">Back of the envelope</div>
+      <p class="eq">f = 1 / (1 + 10<sup>(pH − pKa)</sup>)</p>
+      <p><strong>f</strong> = fraction of switching groups still holding their proton; <strong>pH</strong> = acidity of the surroundings; <strong>pKa</strong> = the pH where half have switched. Each pH unit past the pKa shifts the ratio 10-fold. For a pKa of 5.0 at blood pH 7.4, f = 1/(1 + 10<sup>2.4</sup>) ≈ 0.004, so about 99.6% of groups have switched. (Idealized; a real particle surface is messier.)</p>
+    </div>
+
+    <figure>
+      <div class="fig-title"><span class="label">Fig 1</span>One lipid, two charge states</div>
+      <div class="plot-scroll">
+        <svg class="plot" viewBox="0 0 340 214" role="img" aria-label="Net charge versus pH. The switchable lipid is positive below about pH 5.5 and negative at blood pH 7.4. A standard ionizable lipid is positive in acid and near neutral at pH 7.4 but never negative.">
+          <rect class="band" x="107.2" y="30" width="89.6" height="140"/>
+          <line class="zline" x1="96" y1="26" x2="96" y2="170"/>
+          <line class="zline" x1="286.4" y1="26" x2="286.4" y2="170"/>
+          <rect x="152" y="171" width="56" height="4" fill="var(--muted)" opacity=".5"/>
+          <text class="zone-l" x="96" y="16" text-anchor="middle">mixing · pH 4</text>
+          <text class="zone-l" x="286.4" y="16" text-anchor="middle">blood · pH 7.4</text>
+          <text x="152" y="27" text-anchor="start" class="snp-t" style="font-size:10px">pKa range</text>
+          <line class="ax" x1="40" y1="30" x2="40" y2="170"/>
+          <line class="zero" x1="40" y1="100" x2="320" y2="100"/>
+          <text class="pos-t" x="28" y="44" text-anchor="middle">+</text>
+          <text x="28" y="104" text-anchor="middle">0</text>
+          <text class="neg-t" x="28" y="164" text-anchor="middle">−</text>
+          <path class="lnp" d="M40.0,38.4 L96.0,38.4 L124.0,38.6 L146.4,39.0 L163.2,39.8 L174.4,40.9 L185.6,42.6 L196.8,45.5 L208.0,49.9 L219.2,56.1 L230.4,63.9 L241.6,72.4 L252.8,80.2 L264.0,86.4 L275.2,90.8 L286.4,93.7 L297.6,95.4 L308.8,96.5 L320.0,97.1"/>
+          <path class="snp" d="M40.0,41.0 L62.4,41.6 L79.2,42.6 L96.0,44.6 L107.2,46.8 L118.4,50.0 L129.6,54.7 L140.8,61.2 L152.0,70.0 L163.2,80.9 L174.4,93.4 L180.0,100.0 L185.6,106.6 L196.8,119.1 L208.0,130.0 L219.2,138.8 L230.4,145.3 L241.6,150.0 L252.8,153.2 L264.0,155.4 L275.2,156.8 L286.4,157.8 L297.6,158.4 L308.8,158.8 L320.0,159.0"/>
+          <text x="180" y="188" text-anchor="middle">endosome · pH 5–6</text>
+          <g text-anchor="middle">
+            <text x="40" y="203">3</text><text x="96" y="203">4</text><text x="152" y="203">5</text><text x="208" y="203">6</text><text x="264" y="203">7</text><text x="320" y="203">8</text>
+          </g>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><i class="key key-snp"></i>Switchable lipid (amine + carboxylic acid)</span>
+        <span><i class="key key-lnp"></i>Standard ionizable lipid (amine only)</span>
+      </div>
+      <figcaption>Net particle charge vs. pH. Curve shapes are schematic; the shaded band is the measured pKa range of the best particles, pH 4.2–5.8.</figcaption>
+    </figure>
+
+    <div class="block">
+      <div class="label">What they did</div>
+      <ol class="steps">
+        <li><div><span class="st">Built a library.</span> Made 144 switchable lipids, varying three features: the carbon chain between the amine and the acid (5 to 9 carbons), how branched the fatty tails were, and a spacer inside the tails.</div></li>
+        <li><div><span class="st">Screened in cells.</span> Loaded each with mRNA for <strong>luciferase</strong> (the firefly glow enzyme; brighter cells mean more mRNA delivered) and dosed HEK cells, a standard human cell line, at 500 ng/mL for 24 h. Benchmark: MC3, the ionizable lipid in an FDA-approved drug.</div></li>
+        <li><div><span class="st">Measured charge vs. pH.</span> Added a fluorescent dye whose signal depends on surface charge, across pH 2 to 12, to find each particle's pKa.</div></li>
+        <li><div><span class="st">Tested delivery in mice.</span> Injected the top 18 into the bloodstream and imaged whole-body glow. The best then carried mRNA for <strong>EPO</strong> (a hormone that is easy to measure in blood) at 0.1 mg/kg, with blood drawn 24 h later.</div></li>
+        <li><div><span class="st">Stress-tested inflammation.</span> Mice first got <strong>LPS</strong> (a bacterial molecule that inflames the body, mimicking a sick patient), then particles at 1 mg/kg; blood <strong>cytokines</strong> (immune alarm proteins) were measured at 4 and 24 h. Human white blood cells from 4 donors were tested for 14 cytokines. Separate assays checked each suspected trigger: complement in human serum, TLR4 reporter cells, and galectin-8 reporter cells (galectin-8 piles onto damaged endosomes).</div></li>
+        <li><div><span class="st">Treated a disease model.</span> Mice with LPS-injured lungs got mRNA for IL-22, a protein that protects the lung lining, at 2.5 mg/kg into the airway. Readouts 24 h later: protein leaking into the lungs and immune cells flooding in.</div></li>
+      </ol>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">0 of 14</div><div class="t">cytokines raised in human white blood cells by the best particle. Every benchmark LNP raised them.</div></div>
+      <div class="stat"><div class="n">3/3 vs 0/3</div><div class="t">mice alive 7 days after a 1 mg/kg DNA dose. All 3 given the MC3 particle died within 24 h.</div></div>
+      <div class="stat"><div class="n">600 mU/mL</div><div class="t">blood EPO at 24 h, equal to MC3 and about 100× the therapeutic threshold.</div></div>
+    </div>
+
+    <div class="block">
+      <p><strong>The surprise:</strong> the particles released mRNA without visibly damaging endosomes. They caused almost no galectin-8 pile-up and did not burst red blood cells at pH 5.5, while every benchmark did. Instead, they collected in Rab11 endosomes, a recycling compartment that other work has shown can let cargo out. In the lung model, protein leakage fell back to healthy levels; with every benchmark LNP, the lungs stayed leaky.</p>
+    </div>
+
+    <div class="move">
+      <div class="label">Invention move 02 · again</div>
+      <div class="mname">Let the surroundings flip the switch.</div>
+      <p>When a design needs opposite properties in different places, tie the property to something that already differs between those places, such as pH, temperature, enzymes, or salt.</p>
+    </div>
+
+    <div class="aside">
+      <div class="block"><div class="label">For your work</div><p>Antibody formulations are often buffered slightly acidic and then land in tissue near pH 7.4. Could a particle surface or excipient be built to change charge across that same jump at injection?</p></div>
+      <div class="block limits"><div class="label">Limits</div><p>Mice (3 per group in most experiments) and blood cells from 4 human donors; no people. These particles go mainly to liver and spleen. Whether the new lipids build up inside cells over repeated doses was not measured.</p></div>
+    </div>
+  </div>
+</article>
+
+<div class="divider"></div>
+
+<!-- ===== SECOND STORY (skeleton: same block order, shorter; 3 to 4 method steps) ===== -->
+<article class="story" id="second">
+  <div class="kicker"><span class="slot">Second · [Topic]</span><span class="label">[Journal] · [Mon D, YYYY] · [Lab, Institution]</span></div>
+  <h2>[Concrete headline]</h2>
+
+  <div class="block">
+    <div class="label">The problem</div>
+    <p>[Why it was hard. Real terms, each defined briefly.]</p>
+  </div>
+
+  <div class="predict" id="p2">
+    <div class="label">Your turn · 10 seconds</div>
+    <p>[A question asking him to invent the solution.]</p>
+    <button class="reveal" type="button" data-reveal="t2" hidden>I've guessed. Show the idea</button>
+  </div>
+
+  <div class="trick" id="t2" data-veil>
+    <div class="block">
+      <div class="label">The idea · [short name]</div>
+      <p>[The mechanism, directly. 1 to 3 key numbers with units.]</p>
+    </div>
+
+    <figure>
+      <div class="fig-title"><span class="label">Fig 2</span>[Figure title]</div>
+      <!-- [Original inline SVG or HTML/CSS figure using the template tokens] -->
+      <figcaption>[What it shows; "schematic" if not drawn from data]</figcaption>
+    </figure>
+
+    <div class="block">
+      <div class="label">What they did</div>
+      <ol class="steps">
+        <li><div><span class="st">[Step title.]</span> [What was built or done, in what model, with the key dose or timepoint.]</div></li>
+        <li><div><span class="st">[Step title.]</span> [The readout and the comparison.]</div></li>
+        <li><div><span class="st">[Step title.]</span> [...]</div></li>
+      </ol>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">[number]</div><div class="t">[what it measures, compared to what]</div></div>
+      <div class="stat"><div class="n">[number]</div><div class="t">[...]</div></div>
+    </div>
+
+    <div class="move">
+      <div class="label">Invention move [NN]</div>
+      <div class="mname">[Imperative name.]</div>
+      <p>[How to reuse it.]</p>
+    </div>
+
+    <div class="aside">
+      <div class="block"><div class="label">For your work</div><p>[Specific link to his work, as a question.]</p></div>
+      <div class="block limits"><div class="label">Limits</div><p>[Model system, sample sizes, preprint status, what wasn't tested.]</p></div>
+    </div>
+  </div>
+</article>
+
+<!-- ===== TAKEAWAY ===== -->
+<section class="takeaway">
+  <div class="label">Tonight in one line</div>
+  <p>[One memorable sentence uniting both stories.]</p>
+</section>
+
+<!-- ===== QUIZ ===== -->
+<section class="quiz">
+  <h3>Quiz yourself</h3>
+  <p class="note">Answer in your head first, then tap.</p>
+  <details>
+    <summary><span class="q">Q1</span><span>Why did adding a carboxylic acid to the head group lower inflammation without hurting delivery?<span class="tap">Tap for answer</span></span></summary>
+    <div class="ans">The acid is neutral in acid and negative at pH 7.4. So the lipid stays positive where it needs to be (mixing at pH 4, endosomes at pH 5 to 6) and is neutral to negative in blood, where positive charge would set off TLR4 and complement.</div>
+  </details>
+  <details>
+    <summary><span class="q">Q2</span><span>[A method question: how did they test X, and why that readout?]<span class="tap">Tap for answer</span></span></summary>
+    <div class="ans">[Answer]</div>
+  </details>
+  <details>
+    <summary><span class="q">Q3</span><span>[Spaced-repetition question from an earlier issue]<div class="from">From No. [NNN]</div><span class="tap">Tap for answer</span></span></summary>
+    <div class="ans">[Answer]</div>
+  </details>
+</section>
+
+<!-- ===== SOURCES ===== -->
+<section class="sources">
+  <div class="label">Sources</div>
+  <ol>
+    <li>Liang, Qi, Han, Ahmadian … Murthy. “Charge-switching ionizable lipids lower the toxicity of lipid nanoparticles.” <em>Nature Nanotechnology</em> 21, 1479–1488 (2026). <a href="https://www.nature.com/articles/s41565-026-02262-6">doi:10.1038/s41565-026-02262-6</a> (open access)</li>
+    <li>[Second paper, same format.]</li>
+  </ol>
+</section>
+
+<footer class="foot">
+  <span>The 1 A.M. Paper · No. [NNN]</span>
+  <a id="archive-link" href="https://claude.ai/artifact/1nxL79QaLvA5vogPrupx7m">Archive &amp; move playbook →</a>
+  <span>Figures are original diagrams, redrawn from reported numbers.</span>
+</footer>
+
+</main>
+
+
+<script>
+(function () {
+  var veils = document.querySelectorAll('[data-veil]');
+  Array.prototype.forEach.call(veils, function (t) {
+    var btn = document.querySelector('[data-reveal="' + t.id + '"]');
+    if (!btn) return;
+    t.classList.add('veiled');
+    t.setAttribute('aria-hidden', 'true');
+    btn.hidden = false;
+    btn.addEventListener('click', function () {
+      t.classList.remove('veiled');
+      t.removeAttribute('aria-hidden');
+      btn.hidden = true;
+      var p = btn.closest('.predict');
+      if (p) p.classList.add('done');
+    });
+  });
+})();
+</script>
